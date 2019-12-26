@@ -31,64 +31,13 @@
                         <span>小米手机</span>
                         <div class="children">
                             <ul>
-                                <li class="product">
-                                    <a href="" target="_blank">
+                                <li class="product" v-for="(item,index) in phoneList" :key="index">
+                                    <a :href="'/#/product'+item.id" target="_blank">
                                         <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
+                                            <img :src="item.mainImage" alt="">
                                         </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
-                                        </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
-                                        </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
-                                        </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
-                                        </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
-                                    </a>
-                                </li>
-                                <li class="product">
-                                    <a href="" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/be92bc4baa572bf467fc9e881fd4be2a.png?thumb=1&amp;w=160&amp;h=110&amp;f=webp&amp;q=90"
-                                                 alt="">
-                                        </div>
-                                        <div class="pro-name">小米CCp Pro</div>
-                                        <div class="pro-price">2799元起</div>
+                                        <div class="pro-name">{{item.name}}</div>
+                                        <div class="pro-price">{{item.price}}元</div>
                                     </a>
                                 </li>
                             </ul>
@@ -123,7 +72,7 @@
          }
       },
       mounted() {
-         this.getProductList()
+          this.getProductList()
       },
       methods: {
          login() {
@@ -132,10 +81,11 @@
          getProductList() {
             this.axios.get('/products', {
                params: {
-                  categoryId: '100012'
+                  categoryId: '100012',
+                  pageSize: 6
                }
             }).then((res) => {
-               this.phoneList = res
+               this.phoneList = res.list
             })
          },
          GotoCart() {
