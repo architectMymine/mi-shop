@@ -14,9 +14,10 @@
                     <a href="javascript:void(0)">小爱开放平台</a>
                 </div>
                 <div class="topbar-user">
-                    <a href="javascript:void(0)">登录</a>
+                    <a href="javascript:void(0)" @click="login">登录</a>
                     <a href="javascript:void(0)">注册</a>
-                    <a href="javascript:void(0)" class="my-cart"><span class="icon-cart"></span>购物车</a>
+                    <a href="javascript:void(0)" class="my-cart" @click="GotoCart"><span
+                            class="icon-cart"></span>购物车</a>
                 </div>
             </div>
         </div>
@@ -117,6 +118,7 @@
       name: 'nav-header',
       data() {
          return {
+            username: '',
             phoneList: []
          }
       },
@@ -124,6 +126,9 @@
          this.getProductList()
       },
       methods: {
+         login() {
+            this.$router.push('/login')
+         },
          getProductList() {
             this.axios.get('/products', {
                params: {
@@ -132,12 +137,14 @@
             }).then((res) => {
                this.phoneList = res
             })
+         },
+         GotoCart() {
+            this.$router.push('/cart')
          }
       }
    }
 </script>
 <style lang="scss" scoped>
-    @import "../assets/scss/base";
     @import "../assets/scss/mixin";
     @import "../assets/scss/config";
 
@@ -172,7 +179,7 @@
                         display: inline-block;
                         width: 16px;
                         height: 12px;
-                        background: url("../../public/imgs/icon-cart-checked.png") no-repeat center;
+                        background: url('/imgs/icon-cart-checked.png') no-repeat center;
                         background-size: contain;
                         margin-right: 4px;
                     }
@@ -199,13 +206,13 @@
 
                         &:before {
                             content: '';
-                            @include bgImg(55px, 55px, "../../public/imgs/mi-logo.png");
+                            @include bgImg(55px, 55px, "/imgs/mi-logo.png");
                             transition: all .2s;
                         }
 
                         &:after {
                             content: '';
-                            @include bgImg(55px, 55px, "../../public/imgs/mi-home.png");
+                            @include bgImg(55px, 55px, "/imgs/mi-home.png");
                         }
 
                         &:hover:before {
@@ -253,6 +260,7 @@
                             box-shadow: 0 7px 6px 0 rgba(0, 0, 0, .11);
                             z-index: 10;
                             transition: all 1s;
+                            background-color: #ffffff;
 
                             .product {
                                 float: left;
@@ -325,7 +333,7 @@
                         }
 
                         a {
-                            @include bgImg(18px, 18px, "../../public/imgs/icon-search.png");
+                            @include bgImg(18px, 18px, "/imgs/icon-search.png");
                             margin-left: 17px;
                         }
                     }
