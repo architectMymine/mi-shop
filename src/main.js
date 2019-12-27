@@ -3,6 +3,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 import App from './App.vue'
 
 //基础设置
@@ -23,7 +24,9 @@ axios.interceptors.response.use(function (response) {
 
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
-
+Vue.use(VueLazyLoad,{
+    loading:'/imgs/loading-svg/loading-bars.svg'
+})
 new Vue({
     router,
     store,

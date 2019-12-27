@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div class="index">
         <div class="container">
             <div class="swiper-box">
@@ -121,12 +121,12 @@
             </div>
             <div class="ads-box">
                 <a :href="'/#/product/'+item.id" v-for="(item,index) in adsList" :key="index">
-                    <img :src="item.img" alt="">
+                    <img v-lazy="item.img" alt="">
                 </a>
             </div>
             <div class="banner">
                 <a href="/#/product/30">
-                    <img src="/imgs/banner-1.png" alt="">
+                    <img v-lazy="'/imgs/banner-1.png'" alt="">
                 </a>
             </div>
         </div>
@@ -136,7 +136,7 @@
                 <div class="wrapper">
                     <div class="banner-left">
                         <a href="/#/product/35">
-                            <img src="/imgs/mix-alpha.jpg" alt="">
+                            <img v-lazy="'/imgs/mix-alpha.jpg'" alt="">
                         </a>
                     </div>
                     <div class="list-box">
@@ -144,12 +144,12 @@
                             <div class="item" v-for="(sub,index) in item" :key="index">
                                 <span class="new-pro">新品</span>
                                 <div class="item-img">
-                                    <img :src="sub.mainImage" alt="">
+                                    <img v-lazy="sub.mainImage" alt="">
                                 </div>
                                 <div class="item-info">
                                     <h3>{{sub.name}}</h3>
                                     <p>{{sub.subtitle}}</p>
-                                    <p class="price">{{sub.price}}元</p>
+                                    <p class="price" @click="addCart(sub.id)">{{sub.price}}元</p>
                                 </div>
                             </div>
                         </div>
@@ -158,11 +158,24 @@
             </div>
         </div>
         <service-bar></service-bar>
+        <modal
+                title="提示"
+                sure-text="查看购物车"
+                btn-type="1"
+                modal-type="middle"
+                :showModal="showModal"
+                @submit="submit"
+                @cancel="showModal=false">
+            <template v-slot:body>
+                <p>商品添加成功</p>
+            </template>
+        </modal>
     </div>
 </template>
 <script>
    import 'swiper/dist/css/swiper.css'
    import ServiceBar from './../components/ServiceBar'
+   import Modal from './../components/Modal'
    import {swiper, swiperSlide} from 'vue-awesome-swiper'
 
    export default {
@@ -362,16 +375,15 @@
                   img: '/imgs/ads/ads-4.jpg'
                },
             ],
-            phoneList: [
-               [1, 1, 1, 1],
-               [1, 1, 1, 1]
-            ]
+            phoneList: [],
+            showModal: false
          }
       },
       components: {
          swiper,
          swiperSlide,
-         ServiceBar
+         ServiceBar,
+         Modal
       },
       mounted() {
          this.init()
@@ -386,6 +398,21 @@
             }).then((res) => {
                this.phoneList = [res.list.slice(6, 10), res.list.slice(10, 14)]
             })
+         },
+         submit(){
+           this.$router.push('/cart')
+         },
+         addCart(id) {
+            this.showModal = true
+            return
+            // this.axios.post('/carts', {
+            //    productId: id,
+            //    selected: true
+            // }).then(() => {
+            //
+            // }).catch(() => {
+            //    this.showModal = true
+            // })
          }
       }
    }
@@ -393,6 +420,7 @@
 <style lang="scss" scoped>
     @import "../assets/scss/mixin";
     @import "../assets/scss/config";
+    @import "../assets/scss/base";
 
     .index {
         .swiper-box {
@@ -581,7 +609,7 @@
                             }
 
                             .item-img {
-                                img{
+                                img {
                                     width: 100%;
                                     height: 195px;
 
