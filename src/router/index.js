@@ -4,6 +4,7 @@ import Home from '../pages/home'
 import Index from '../pages/index'
 import Product from '../pages/product'
 import Detail from '../pages/detail'
+import Login from '../pages/login'
 import Cart from '../pages/cart'
 import Order from '../pages/order'
 import OrderConfirm from '../pages/orderConfirm'
@@ -39,6 +40,11 @@ const routes = [
         path: '/cart',
         name: 'cart',
         component: Cart
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
     },
     {
         path: '/order',

@@ -15,7 +15,7 @@
                 </div>
                 <div class="topbar-user">
                     <a href="javascript:void(0)" @click="login">登录</a>
-                    <a href="javascript:void(0)">注册</a>
+                    <!-- <a href="javascript:void(0)">注册</a> -->
                     <a href="javascript:void(0)" class="my-cart" @click="GotoCart"><span
                             class="icon-cart"></span>购物车</a>
                 </div>
