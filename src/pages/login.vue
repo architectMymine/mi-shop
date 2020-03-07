@@ -37,15 +37,23 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import NavFooter from './../components/NavFooter'
+import NavFooter from "./../components/NavFooter";
 export default {
   name: "login",
   data() {
     return {
       username: "",
       password: "",
-      userId: ""
+      userId: "",
+      from:""
     };
+  },
+  // 判断页面是从哪里跳转过来的
+  beforeRouteEnter: (to, from, next) => {
+    next(vm =>{
+      vm.from = from.fullPath
+      console.log(vm.from)
+    })
   },
   methods: {
     login() {
@@ -75,15 +83,15 @@ export default {
           username,
           password
         })
-        .then((res) => {
-           console.log(1)
-         //   this.$message.success("注册成功")
+        .then(res => {
+          console.log(1);
+          //   this.$message.success("注册成功")
         });
     }
   },
   components: {
-      NavFooter
-   }
+    NavFooter
+  }
 };
 </script>
 <style lang="scss">
@@ -139,6 +147,7 @@ export default {
           background-color: #ff6600;
           text-align: center;
           .btn {
+            display: block;
             width: 100%;
             line-height: 50px;
             margin-top: 10px;

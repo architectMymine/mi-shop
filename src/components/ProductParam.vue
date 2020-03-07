@@ -38,7 +38,7 @@
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import './../assets/scss/config.scss';
   @import './../assets/scss/mixin.scss';
   .nav-bar{
@@ -66,7 +66,7 @@
           margin:0 10px;
         }
         a{
-          color:$colorC;
+          color:$colorC; 
         }
       }
     }

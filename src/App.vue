@@ -15,12 +15,12 @@ export default {
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then((res) => {
+      this.axios.get("/user").then((res={}) => {
        this.$store.dispatch('saveUserName',res.username);
       });
     },
     getCartCount() {
-      this.axios.get("/carts/products/sum").then((res) => {
+      this.axios.get("/carts/products/sum").then((res=0) => {
         this.$store.dispatch('saveCartCount',res);
       });
     }
@@ -31,4 +31,7 @@ export default {
 <style lang="scss">
 @import "./assets/scss/reset";
 @import "./assets/scss/base";
+@import  './assets/scss/config.scss';
+@import  './assets/scss/button.scss';
+
 </style>
