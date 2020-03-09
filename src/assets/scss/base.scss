@@ -1,17 +1,45 @@
-.container{
+.container {
   width: 1226px;
   margin: 0 auto;
   position: relative;
 }
-a{
-  img{
+
+a {
+  img {
     width: 100%;
     height: 100%;
   }
 }
 
-input{
+input {
   outline: none;
   box-sizing: border-box;
   font-size: 14px;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+// 我常用的清楚浮动的办法
+// clearfix:before,.clearfix:after{
+//   content: '';
+//   display: block;
+//   height: 0;
+//   clear: both;
+//   visibility: hidden;
+// }
+
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
 }
