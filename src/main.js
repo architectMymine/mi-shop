@@ -20,8 +20,9 @@ axios.interceptors.response.use(function (response) {
     } else if (res.status === 10) {
         if(path !== '#/index'){
             window.location.href = '/#/login'
+            return Promise.reject(res)
         }
-        return Promise.reject(res)
+      
     } else {
         alert(res.msg)
         return Promise.reject(res)

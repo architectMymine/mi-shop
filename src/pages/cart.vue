@@ -21,8 +21,13 @@
           <ul class="cart-item-list">
             <li class="cart-item" v-for="(item,index) in list" :key="index">
               <div class="item-check">
-                <span class="checkbox" :class="{'checked': item.productSelected}" @click="!item.productSelected"></span>
+                <span
+                  class="checkbox"
+                  :class="{'checked': item.productSelected}"
+                  @click="updataCart(item)"
+                ></span>
               </div>
+
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt />
                 <span>{{item.productName+ ','+item.productPrice}}</span>
@@ -30,9 +35,9 @@
               <div class="item-price">{{item.productPrice}}元</div>
               <div class="item-num">
                 <div class="num-box">
-                  <a href="javascript:;">-</a>
+                  <a href="javascript:;" @click="updataCart(item,'-')">-</a>
                   <span>{{item.quantity}}</span>
-                  <a href="javascript:;">+</a>
+                  <a href="javascript:;" @click="updataCart(item,'+')">+</a>
                 </div>
               </div>
               <div class="item-total">{{item.productTotalPrice}}元</div>
@@ -79,26 +84,62 @@ export default {
     };
   },
   mounted() {
-    this.getCartList()
+    this.getCartList();
   },
   methods: {
-    toggleAll(){
-      let url = this.allChecked ? '/carts/unSelectAll' :'/carts/selectAll'
-      this.axios.put(url).then((res) =>{
-         this.list = res.cartProductVoList || [];
-      })
+    // 全选
+    toggleAll() {
+      let url = this.allChecked ? "/carts/unSelectAll" : "/carts/selectAll";
+      this.axios.put(url).then(res => {
+        this.renderData(res);
+      });
     },
     order() {
-      this.$router.push("/order/confirm");
+      let isCheck = this.list.every(item => !item.productSelected);
+      if (isCheck) {
+        alert("请选择商品");
+      } else {
+        this.$router.push("/order/confirm");
+      }
     },
     getCartList() {
       this.axios.get("/carts").then(res => {
-        console.log(res)
-        this.list = res.cartProductVoList || [];
-        this.allChecked = res.selectedAll;
-        this.cartTotalPrice = res.cartTotalPrice;
-        this.checkedNum = this.list.filter(item => item.productSelected).length
+        this.renderData(res);
       });
+    },
+    renderData(res) {
+      this.list = res.cartProductVoList || [];
+      this.allChecked = res.selectedAll;
+      this.cartTotalPrice = res.cartTotalPrice;
+      this.checkedNum = this.list.filter(item => item.productSelected).length;
+    },
+    updataCart(item, type) {
+      let quantity = item.quantity,
+        selected = item.productSelected;
+      if (type === "-") {
+        if (quantity === 1) {
+          alert("数量最少为1");
+          return;
+        }
+        --quantity;
+      } else if (type === "+") {
+        if (quantity === item.productStock) {
+          alert("不能超过最大数量");
+          return;
+        }
+        ++quantity;
+      } else {
+        selected = !item.productSelected;
+      }
+
+      this.axios
+        .put(`/carts/${item.productId}`, {
+          quantity,
+          selected
+        })
+        .then(res => {
+          this.renderData(res);
+        });
     }
   }
 };
