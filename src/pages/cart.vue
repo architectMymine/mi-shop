@@ -118,13 +118,13 @@ export default {
         selected = item.productSelected;
       if (type === "-") {
         if (quantity === 1) {
-          alert("数量最少为1");
+          this.$message.warning("数量最少为1");
           return;
         }
         --quantity;
       } else if (type === "+") {
         if (quantity === item.productStock) {
-          alert("不能超过最大数量");
+          this.$message.warning("不能超过最大数量");
           return;
         }
         ++quantity;
