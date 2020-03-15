@@ -408,7 +408,6 @@
                productId: id,
                selected: true
             }).then((res) => {
-                console.log(res)
                 this.showModal = true   
                 this.$store.dispatch('saveCartCount',res.cartTotalQuantity)
             }).catch(() => {

@@ -48,13 +48,13 @@ export default {
       from:""
     };
   },
-  // 判断页面是从哪里跳转过来的
-  beforeRouteEnter: (to, from, next) => {
-    next(vm =>{
-      vm.from = from.fullPath
-      console.log(vm.from)
-    })
-  },
+  // // 判断页面是从哪里跳转过来的
+  // beforeRouteEnter: (to, from, next) => {
+  //   next(vm =>{
+  //     vm.from = from.fullPath
+  //     console.log(vm.from)
+  //   })
+  // },
   methods: {
     login() {
       let { username, password } = this;
@@ -84,8 +84,7 @@ export default {
           password
         })
         .then(res => {
-          console.log(1);
-          //   this.$message.success("注册成功")
+          this.$message.success("注册成功")
         });
     }
   },

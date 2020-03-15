@@ -16,9 +16,11 @@
         <div class="topbar-user">
           <a href="javascript:void(0)" v-if="username">{{username}}</a>
           <a href="javascript:void(0)" v-if="!username" @click="login">登录</a>
+          <a href="javascript:void(0)" v-if="username" @click="logout">退出</a>
           <a href="javascript:void(0)" v-if="username">我的订单</a>
           <a href="javascript:void(0)" class="my-cart" @click="GotoCart">
-            <span class="icon-cart"></span>购物车({{cartCount}})
+            <span class="icon-cart"></span>
+            购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -65,29 +67,46 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "nav-header",
   data() {
     return {
       phoneList: []
-    }
+    };
   },
-  computed:{
+  computed: {
     //  username(){
     //      return this.$store.state.username
     //  },
     //  cartCount(){
     //    return this.$store.state.cartCount
     //  }
-     ...mapState(['username','cartCount'])
+    ...mapState(["username", "cartCount"])
   },
   mounted() {
     this.getProductList();
+    let params = this.$route.params;
+    if (params && params.from === "login") {
+      this.getCartCount();
+    }
   },
   methods: {
     login() {
       this.$router.push("/login");
+    },
+    getCartCount() {
+      this.axios.get("/carts/products/sum").then((res = 0) => {
+        this.$store.dispatch("saveCartCount", res);
+      });
+    },
+    logout() {
+      this.axios.post("/user/logout").then(() => {
+        this.$cookie.set("userId", "", { expires: "-1" });
+        this.$store.dispatch("saveUserName", "");
+        this.$store.dispatch("saveCartCount", "0");
+        this.$message.success("退出成功");
+      });
     },
     getProductList() {
       this.axios
