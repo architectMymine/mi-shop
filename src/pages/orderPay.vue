@@ -1,5 +1,6 @@
 <template>
   <div class="">
+    orderPay
 </div>
 </template>
 
