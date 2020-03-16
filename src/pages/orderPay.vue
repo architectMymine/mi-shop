@@ -1,10 +1,20 @@
 <template>
-  <div>
-    orderPay
-  </div>
+  <div class="">
+</div>
 </template>
-<script>
-  export default{
-    name:'order-pay'
+
+<script type="text/javascript">
+export default {
+  name: "",
+  data() {
+    return {
+
+    }
+  },
+  components: {
   }
+}
 </script>
+
+<style lang="scss" scoped>
+</style>
