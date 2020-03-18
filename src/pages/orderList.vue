@@ -1,8 +1,8 @@
 <template>
   <div class="order-list">
-    <order-header title="订单列表">
+   <order-header title="订单列表">
       <template v-slot:tip>
-        <span>请谨防钓鱼链接或诈骗电话，了解更多></span>
+        <span>请谨防钓鱼链接或诈骗电话，了解更多</span>
       </template>
     </order-header>
     <div class="wrapper">
@@ -52,7 +52,7 @@
   export default{
     name:'order-list',
     components:{
-      OrderHeader
+     OrderHeader
     }
   }
 </script>
