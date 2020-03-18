@@ -8,37 +8,40 @@
     <div class="wrapper">
       <div class="container">
         <div class="order-box">
-          <div class="order">
+          <div class="order" v-for="(order,index) in list" :key="index">
             <div class="order-title">
               <div class="item-info fl">
-                2019-12-20 11:43:08
+                {{order.createTime}}
                 <span>|</span>
-                河畔一角
+                {{order.receiverName}}
                 <span>|</span>
-                订单号：1352216743 
+                订单号：{{order.orderNo}}
                 <span>|</span>
-                在线支付
+                {{order.paymentTypeDesc}}
               </div>
               <div class="item-money fr">
                 <span>应付金额：</span>
-                <span class="money">999</span>
+                <span class="money">{{order.payment}}</span>
                 <span>元</span>
               </div>
             </div>
             <div class="order-content clearfix">
               <div class="good-box fl">
-                <div class="good-list">
+                <div class="good-list" v-for="(item,i) in order.orderItemVoList" :key="i">
                   <div class="good-img">
-                    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4c87947d104ee5833913e4c520108f16.jpg" alt="">
+                    <img :src="item.productImage" alt="">
                   </div>
                   <div class="good-name">
-                    <div class="p-name">Redmi Note 8</div>
-                    <div class="p-money">999 X 1元</div>
+                    <div class="p-name">{{item.productName}}</div>
+                    <div class="p-money">{{item.currentUnitPrice}} X {{item.quantity}}元</div>
                   </div>
                 </div>
               </div>
-              <div class="good-state fr">
-                <a href="javascript:;">未支付</a>
+              <div class="good-state fr" v-if="order.status == 20">
+                <a href="javascript:;">{{order.statusDesc}}</a>
+              </div>
+               <div class="good-state fr" v-else>
+                <a href="javascript:;" @click="goPay(order.orderNo)">{{order.statusDesc}}</a>
               </div>
             </div>
           </div>
@@ -53,6 +56,29 @@
     name:'order-list',
     components:{
      OrderHeader
+    },
+    data(){
+      return{
+          list:[]
+      }
+    },
+    mounted(){
+      this.getOrderList()
+    },
+    methods:{
+        getOrderList(){
+            this.axios.get('/orders').then(res =>{
+              this.list =res.list
+            })
+        },
+        goPay(orderNo){
+            this.$router.push({
+              path:'/order/pay',
+              query:{
+                orderNo
+              }
+            })
+        }
     }
   }
 </script>
