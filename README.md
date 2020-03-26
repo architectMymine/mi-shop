@@ -44,3 +44,7 @@ npm install
     官方的说法是store.dispatch可以处理被触发的 action 的处理函数返回的 Promise，并且 store.dispatch 仍旧返回 Promise,所以说实际上是返回一个Promise，
     那么我们就可以使用Promise.then()。
 ```
+## 项目优化
+```
+
+```
